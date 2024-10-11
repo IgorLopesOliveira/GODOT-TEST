@@ -120,47 +120,13 @@ func _physics_process(delta):
     if is_on_floor() and Input.is_action_just_pressed("ui_up"):
         velocity.y = JUMP_FORCE
 
-    velocity = move_and_slide(velocity, Vector2.UP)
+    velocity = move_and_slide(velocity)
 
-5. Platform Setup (/scenes/levels/Level1.tscn)
-Create a StaticBody2D with CollisionShape2D and an Image for platforms.
-Use a basic platform sprite (e.g., platform.png) to form the platforms.
+6. Boilerplate Files
+Create a basic Level1.tscn in scenes/levels/, and a corresponding script for any core functionality (e.g., game manager).
+7. Version Control Setup
+Set up .gitignore to exclude build files.
 
-6. Coin Collection (/scripts/ui/Coin.gd)
-extends Area2D
-
-signal collected
-
-func _ready():
-    connect("body_entered", self, "_on_body_entered")
-
-func _on_body_entered(body):
-    if body.name == "Player":
-        emit_signal("collected")
-        queue_free()
-
-7. Game Manager (/scripts/core/GameManager.gd)
-extends Node
-
-var score = 0
-
-func _ready():
-    $Player.connect("player_died", self, "_on_player_died")
-    $Coin.connect("collected", self, "_on_coin_collected")
-
-func _on_coin_collected():
-    score += 10
-    print("Score: ", score)
-
-func _on_player_died():
-    print("Game Over")
-
-8. Version Control (/.gitignore)
-# Ignore Godot import/export files
-.import/
-.export/
-
-# Ignore system files
-.DS_Store
-.idea/
-.vscode/
+# .gitignore
+/.import/
+/export/
